@@ -20,12 +20,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<ImageView> listElkemImg = new ArrayList<>(Arrays.asList(
-            findViewById(R.id.image1),
-            findViewById(R.id.image2),
-            findViewById(R.id.image3),
-            findViewById(R.id.image4)
-    ));
+    List<ImageView> listElkemImg;
 
     int[] imgSrc = new int[]{R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6, R.drawable.img7, R.drawable.img8, R.drawable.img9, R.drawable.img10};
 
@@ -40,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        listElkemImg = new ArrayList<>(Arrays.asList(
+                findViewById(R.id.image1),
+                findViewById(R.id.image2),
+                findViewById(R.id.image3),
+                findViewById(R.id.image4)
+        ));
 
         ConstraintLayout myLayout = findViewById(R.id.main);
         myLayout.setOnClickListener(v -> {

@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">TP2_Partie2</string>
+    <string name="app_name">Dodododo Dominoes</string>
+    <string name="welcome">Bienvenue chez Dominoes Pizza!</string>
+    <string name="info_cli">Information du client :</string>
+    <string name="nom">Nom :</string>
+    <string name="prenom">Prenom :</string>
+    <string name="add">Adresse :</string>
+    <string name="code_pos">Code Postal :</string>
+    <string name="tel">Telephone :</string>
+    <string name="info_com">Information sur la copmmande</string>
+    <string name="pizz">Pizza :</string>
+    <string name="$">Prix :</string>
+    <string name="send">Envoyer</string>
+    <string name="a">Afficher sur la carte</string>
 </resources>

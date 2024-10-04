@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView selectedImg;
     int selectedImgIndex = -1;
 
-    int[] imgSrc = new int[]{R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6, R.drawable.img7, R.drawable.img8, R.drawable.img9, R.drawable.img10};
+    List<Integer> imgSrc = Arrays.asList(R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6, R.drawable.img7, R.drawable.img8, R.drawable.img9, R.drawable.img10);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +52,16 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout myLayout = findViewById(R.id.main);
         myLayout.setOnClickListener(v -> {
             listElImg.forEach((x) -> {
-                int index = random(0, imgSrc.length - 1);
-                x.setImageResource(imgSrc[index]);
-                listImg[listElImg.indexOf(x)] = imgSrc[index];
-                Log.w("lol", listElImg.indexOf(x)+" "+index);
+                int index = random(0, imgSrc.size() - 1);
+                x.setImageResource(imgSrc.get(index));
+                listImg[listElImg.indexOf(x)] = imgSrc.get(index);
             });
-            //for (int i = 0; i < listImg.length; i++) listImg[i] = index;
 
         });
 
         listElImg.forEach(img->{
             img.setOnClickListener(v->{
                 selectedImgIndex = listImg[listElImg.indexOf(img)];
-                Log.w("lol", String.valueOf(selectedImgIndex));
                 if (selectedImgIndex > -1) {
                     selectedImg = img;
 
@@ -76,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         findViewById(R.id.suivant).setOnClickListener(v->{
-            if (selectedImg != null && selectedImgIndex > -1) startActivity(putImageInIntent(new Intent(this, SuivantActivity.class).putExtra("selectedImgIndex", selectedImgIndex), selectedImg, "captionTestImgidk"));
+            if (selectedImg != null && selectedImgIndex > -1) startActivity(putImageInIntent(new Intent(this, SuivantActivity.class).putExtra("selectedImgIndex", selectedImgIndex).putExtra("index", imgSrc.indexOf(selectedImgIndex)), selectedImg));
         });
     }
 
@@ -84,12 +81,11 @@ public class MainActivity extends AppCompatActivity {
         return new Random().nextInt(max - min + 1) + min;
     }
 
-    private Intent putImageInIntent(Intent intent, ImageView image, String caption){
+    private Intent putImageInIntent(Intent intent, ImageView image){
         Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bs);
         intent.putExtra("bitmap", bs.toByteArray());
-        intent.putExtra("caption", caption);
         return intent;
     }
 

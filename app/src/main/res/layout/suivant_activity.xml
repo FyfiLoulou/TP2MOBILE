@@ -26,10 +26,12 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="194dp"
-        tools:layout_editor_absoluteY="80dp" />
+        android:layout_width="88dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toEndOf="@+id/texteOuiOui"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/retour"

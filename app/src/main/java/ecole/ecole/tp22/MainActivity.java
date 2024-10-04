@@ -2,11 +2,10 @@ package ecole.ecole.tp22;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -24,9 +23,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<ImageView> listElkemImg;
+    List<ImageView> listElImg;
+    int[] listImg = new int[]{-1, -1, -1, -1};
 
     ImageView selectedImg;
+    int selectedImgIndex = -1;
 
     int[] imgSrc = new int[]{R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6, R.drawable.img7, R.drawable.img8, R.drawable.img9, R.drawable.img10};
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        listElkemImg = new ArrayList<>(Arrays.asList(
+        listElImg = new ArrayList<>(Arrays.asList(
                 findViewById(R.id.image1),
                 findViewById(R.id.image2),
                 findViewById(R.id.image3),
@@ -50,19 +51,32 @@ public class MainActivity extends AppCompatActivity {
 
         ConstraintLayout myLayout = findViewById(R.id.main);
         myLayout.setOnClickListener(v -> {
-            listElkemImg.forEach(x -> x.setImageResource(imgSrc[random(0, imgSrc.length - 1)]));
+            listElImg.forEach((x) -> {
+                int index = random(0, imgSrc.length - 1);
+                x.setImageResource(imgSrc[index]);
+                listImg[listElImg.indexOf(x)] = imgSrc[index];
+                Log.w("lol", listElImg.indexOf(x)+" "+index);
+            });
+            //for (int i = 0; i < listImg.length; i++) listImg[i] = index;
+
         });
 
-        listElkemImg.forEach(img->{
+        listElImg.forEach(img->{
             img.setOnClickListener(v->{
-               // TODO faut pas qu'on puisse select les X
-                selectedImg = img;
+                selectedImgIndex = listImg[listElImg.indexOf(img)];
+                Log.w("lol", String.valueOf(selectedImgIndex));
+                if (selectedImgIndex > -1) {
+                    selectedImg = img;
+
+                    listElImg.forEach(x->x.clearColorFilter());
+                    img.setColorFilter(0x80FF0000, PorterDuff.Mode.SRC_ATOP);
+                }
             });
         });
 
 
         findViewById(R.id.suivant).setOnClickListener(v->{
-            if (selectedImg != null) startActivity(putImageInIntent(new Intent(this, SuivantActivity.class), selectedImg, "captionTestImgidk"));
+            if (selectedImg != null && selectedImgIndex > -1) startActivity(putImageInIntent(new Intent(this, SuivantActivity.class).putExtra("selectedImgIndex", selectedImgIndex), selectedImg, "captionTestImgidk"));
         });
     }
 

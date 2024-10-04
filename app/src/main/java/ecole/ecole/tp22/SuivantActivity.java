@@ -1,9 +1,11 @@
 package ecole.ecole.tp22;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,7 +40,7 @@ public class SuivantActivity extends AppCompatActivity {
         back = findViewById(R.id.retour);
         selection = findViewById(R.id.textView2);
 
-        selection.setText("Voici votre sélection: image "+getIntent().getStringExtra("index"));
+        selection.setText(String.valueOf(getIntent().getIntExtra("index", -1)));
 
         byte[] byteArray = getIntent().getByteArrayExtra("bitmap");
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
@@ -51,6 +53,7 @@ public class SuivantActivity extends AppCompatActivity {
         back.setOnClickListener((View v)->{
             mediaPlayer.stop();
             mediaPlayer.prepareAsync();
+            startActivity(new Intent(this, MainActivity.class));
         });
     }
 }

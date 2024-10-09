@@ -3,6 +3,7 @@ package naji.ecole.TP23;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
     Button envoyer;
     Button showmap;
 
-    TextInputEditText nom;
-    TextInputEditText prenom;
-    TextInputEditText adresse;
-    TextInputEditText codepostal;
+    EditText nom;
+    EditText prenom;
+    EditText adresse;
+    EditText codepostal;
 
 
 

@@ -89,10 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
             // get succursale la plus proche
 
-            LatLng clienteAd = MapsFragment.getAddressLatLng(gc, String.valueOf(adresse.getText()) + String.valueOf(ville.getText()) + String.valueOf(codepostal.getText()));
-            Optional<Info> succursalleCooletProche  = succursallesDBConnexionSource.getAllInfos().stream().min((a, b) -> (int) (MapsFragment.getDist(gc, clienteAd, MapsFragment.getAddressLatLng(gc, a.getAdresse())) - MapsFragment.getDist(gc, clienteAd, MapsFragment.getAddressLatLng(gc, b.getAdresse()))));
+            LatLng clienteAd = MapsFragment.getAddressLatLng(gc, String.valueOf(adresse.getText()) + ville.getText() + codepostal.getText());
+            if (clienteAd != null) {
+                Optional<Info> succursalleCooletProche  = succursallesDBConnexionSource.getAllInfos().stream().min((a, b) -> (int) (MapsFragment.getDist(clienteAd, MapsFragment.getAddressLatLng(gc, a.getAdresse())) - MapsFragment.getDist(clienteAd, MapsFragment.getAddressLatLng(gc, b.getAdresse()))));
+                startActivity(new Intent(this, EnvoyerActivity.class).putExtra("nomSucc", succursalleCooletProche.get().getAdresse()).putExtra("phoneSucc", succursalleCooletProche.get().getPhone()));
+            }
 
-            startActivity(new Intent(this, EnvoyerActivity.class).putExtra("nomSucc", succursalleCooletProche.get().getAdresse()).putExtra("phoneSucc", succursalleCooletProche.get().getPhone()));
         });
 
         // Action à réaliser lors du clic sur le bouton "showmap"
@@ -108,10 +110,6 @@ public class MainActivity extends AppCompatActivity {
         succursallesDBConnexionSource = new ConnexionBD(this);
         succursallesDBConnexionSource.open();
         initBD();
-
-        succursallesDBConnexionSource.getAllInfos().forEach(i -> {
-            Log.d("lol", i.getId() + " " + i.getAdresse() + " " + i.getPhone());
-        });
 
         ArrayAdapter<Pizza> audioJackToHdmi = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pidz);
         audioJackToHdmi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -56,7 +56,7 @@ public class MapsFragment extends FragmentActivity implements OnMapReadyCallback
         return resoltatt;
     }
 
-    public static float getDist(Geocoder geocoder, LatLng pos1, LatLng pos2) {
+    public static float getDist(LatLng pos1, LatLng pos2) {
             float[] results = new float[1];
             Location.distanceBetween(pos1.latitude, pos1.longitude, pos2.latitude, pos2.longitude, results);
             return results[0];

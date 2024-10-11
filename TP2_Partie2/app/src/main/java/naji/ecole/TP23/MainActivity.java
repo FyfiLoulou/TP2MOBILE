@@ -1,5 +1,6 @@
 package naji.ecole.TP23;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Action à réaliser lors du clic sur le bouton "showmap"
         showmap.setOnClickListener((View v) -> {
-            showmap.getText();
+            startActivity(new Intent(this, MapsFragment.class));
         });
     }
 }

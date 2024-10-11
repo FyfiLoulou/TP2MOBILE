@@ -8,8 +8,10 @@
     <string name="code_pos">Cope Dostal :</string>
     <string name="tel">Telephone :</string>
     <string name="info_com">Information sur la copmmande</string>
-    <string name="pizz">Pidza :</string>
+    <string name="pizz">Pidz :</string>
     <string name="prix">Prix :</string>
     <string name="send">Envoyer</string>
     <string name="a">Afficher sur la carte</string>
+    <string name="swwend">Votre commande va être livrée par la succursale :</string>
+    <string name="notel">Numéro de téléphone de cette succursale :</string>
 </resources>

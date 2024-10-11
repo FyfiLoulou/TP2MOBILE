@@ -87,10 +87,12 @@ public class MainActivity extends AppCompatActivity {
 
             // get succursale la plus proche
 
-            LatLng clienteAd = MapsFragment.getAddressLatLng(gc, String.valueOf(adresse.getText()) + String.valueOf(ville.getText()) + String.valueOf(codepostal.getText()));
-            Optional<Info> succursalleCooletProche  = succursallesDBConnexionSource.getAllInfos().stream().min((a, b) -> (int) (MapsFragment.getDist(gc, clienteAd, MapsFragment.getAddressLatLng(gc, a.getAdresse())) - MapsFragment.getDist(gc, clienteAd, MapsFragment.getAddressLatLng(gc, b.getAdresse()))));
+            LatLng clienteAd = MapsFragment.getAddressLatLng(gc, String.valueOf(adresse.getText()) + ville.getText() + codepostal.getText());
+            if (clienteAd != null) {
+                Optional<Info> succursalleCooletProche = succursallesDBConnexionSource.getAllInfos().stream().min((a, b) -> (int) (MapsFragment.getDist(clienteAd, MapsFragment.getAddressLatLng(gc, a.getAdresse())) - MapsFragment.getDist(clienteAd, MapsFragment.getAddressLatLng(gc, b.getAdresse()))));
+                startActivity(new Intent(this, EnvoyerActivity.class).putExtra("nomSucc", succursalleCooletProche.get().getAdresse()).putExtra("phoneSucc", succursalleCooletProche.get().getPhone()));
+            }
 
-            startActivity(new Intent(this, EnvoyerActivity.class).putExtra("nomSucc", succursalleCooletProche.get().getAdresse()).putExtra("phoneSucc", succursalleCooletProche.get().getPhone()));
         });
 
         // Action à réaliser lors du clic sur le bouton "showmap"

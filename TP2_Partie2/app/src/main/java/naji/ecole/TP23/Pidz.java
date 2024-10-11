@@ -8,17 +8,17 @@ import java.util.Objects;
 public class Pidz {
     private String name;
     private double price;
-    private int nocp0;
+    private int numCOmmande;
     private static int noCom = 1;
 
     public Pidz(String name, double price) {
         this.name = name;
         this.price = price;
-        this.nocp0 = noCom++;
+        this.numCOmmande = noCom++;
     }
 
-    public int getNocp0() {
-        return nocp0;
+    public int getNumCOmmande() {
+        return numCOmmande;
     }
 
     public String getName() {

@@ -2,6 +2,7 @@ package naji.ecole.TP23;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,11 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import java.util.List;
+
+import naji.ecole.TP23.bd.ConnexionBD;
+import naji.ecole.TP23.bd.Info;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     Pizza select;
     TextView perice;
 
+
+    List<Info> succursalles;
+    private ConnexionBD succursallesDBConnexionSource;
 
     /**
      * Méthode appelée lors de la création de l'activité.
@@ -77,12 +86,24 @@ public class MainActivity extends AppCompatActivity {
         ));
         // Action à réaliser lors du clic sur le bouton "envoyer"
         envoyer.setOnClickListener((View v) -> {
-            startActivity(new Intent(this, EnvoyerActivity.class).putExtra("adresse", String.valueOf(adresse.getText())).putExtra("codePostal", String.valueOf(codepostal.getText())).putExtra("ville", String.valueOf(ville.getText())));
+
         });
 
         // Action à réaliser lors du clic sur le bouton "showmap"
         showmap.setOnClickListener((View v) -> {
-            startActivity(new Intent(this, MapsFragment.class));
+                                                                                                    // pas address a la fin
+            String addresse = String.valueOf(adresse.getText());
+            if (!addresse.isEmpty()) startActivity(new Intent(this, MapsFragment.class).putExtra("adresse", addresse));
+        });
+
+
+        // DATABASE
+        succursallesDBConnexionSource = new ConnexionBD(this);
+        succursallesDBConnexionSource.open();
+        initBD();
+
+        succursallesDBConnexionSource.getAllInfos().forEach(i->{
+            Log.d("lol", i.getId()+" "+i.getAdresse()+" "+i.getPhone());
         });
 
         ArrayAdapter<Pizza> audioJackToHdmi = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pidz);
@@ -102,4 +123,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initBD() {
+        if (succursallesDBConnexionSource.getAllInfos().isEmpty()) {
+            succursallesDBConnexionSource.createInfo("Domino's Pizza, 3400 1re Av., Québec, QC G1L 3R5", "549 067 2771");
+            succursallesDBConnexionSource.createInfo("Domino's Pizza, 680 Bd Wilfrid-Hamel, Québec, QC G1M 2P9", "679 988 1965");
+            succursallesDBConnexionSource.createInfo("Domino's Pizza, 2673 Ch Ste-Foy, Québec City, Quebec G1V 1V3", "579 888 4274");
+            succursallesDBConnexionSource.createInfo("Domino's Pizza, 9065 Bd de l'Ormière, Québec, QC G2B 3K2", "579 344 4600");
+            succursallesDBConnexionSource.createInfo("Domino's Pizza, 137 Main St E, North Bay, ON P1B 1A9", "417 999 4555");
+        }
+    }
+
 }

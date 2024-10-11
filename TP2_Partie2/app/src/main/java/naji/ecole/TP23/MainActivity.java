@@ -29,9 +29,6 @@ import naji.ecole.TP23.bd.Info;
 public class MainActivity extends AppCompatActivity {
 
     Button envoyer;
-    /**
-     * Bouton pour afficher la carte.
-     */
     Button showmap;
     EditText nom;
     EditText prenom;
@@ -43,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     Spinner hand;
     Pizza select;
     TextView perice;
-
-
     List<Info> succursalles;
     private ConnexionBD succursallesDBConnexionSource;
 
@@ -91,9 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Action à réaliser lors du clic sur le bouton "showmap"
         showmap.setOnClickListener((View v) -> {
-                                                                                                    // pas address a la fin
+            // pas address a la fin
             String addresse = String.valueOf(adresse.getText());
-            if (!addresse.isEmpty()) startActivity(new Intent(this, MapsFragment.class).putExtra("adresse", addresse));
+            if (!addresse.isEmpty())
+                startActivity(new Intent(this, MapsFragment.class).putExtra("adresse", addresse));
         });
 
 
@@ -102,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         succursallesDBConnexionSource.open();
         initBD();
 
-        succursallesDBConnexionSource.getAllInfos().forEach(i->{
-            Log.d("lol", i.getId()+" "+i.getAdresse()+" "+i.getPhone());
+        succursallesDBConnexionSource.getAllInfos().forEach(i -> {
+            Log.d("lol", i.getId() + " " + i.getAdresse() + " " + i.getPhone());
         });
 
         ArrayAdapter<Pizza> audioJackToHdmi = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pidz);

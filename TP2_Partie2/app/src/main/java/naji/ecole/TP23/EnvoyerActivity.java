@@ -1,6 +1,8 @@
 package naji.ecole.TP23;
 
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -10,6 +12,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class EnvoyerActivity extends AppCompatActivity {
+    String ville;
+    String adresse;
+    String codePostal;
+    TextView add;
+    TextView phone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +28,11 @@ public class EnvoyerActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        ville = getIntent().getStringExtra("ville");
+        codePostal = getIntent().getStringExtra("codePostal");
+        adresse = getIntent().getStringExtra("adresse");
+        add = findViewById(R.id.succ);
+        phone = findViewById(R.id.succNoTel);
     }
 }

@@ -14,4 +14,5 @@
     <string name="a">Afficher sur la carte</string>
     <string name="swwend">Votre commande va être livrée par la succursale :</string>
     <string name="notel">Numéro de téléphone de cette succursale :</string>
+    <string name="ville">Ville :</string>
 </resources>

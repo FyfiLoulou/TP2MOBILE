@@ -24,11 +24,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsFragment extends FragmentActivity implements OnMapReadyCallback  {
-
+public class MapsFragment extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private String adresse;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +38,13 @@ public class MapsFragment extends FragmentActivity implements OnMapReadyCallback
         adresse = getIntent().getStringExtra("adresse");
     }
 
+    /**
+     * Convertit une adresse en coordonnées géographiques (latitude et longitude).
+     *
+     * @param geocoder L'instance de Geocoder utilisée pour la conversion.
+     * @param adresse L'adresse à convertir.
+     * @return Un objet LatLng représentant les coordonnées de l'adresse, ou null si la conversion échoue.
+     */
     public static LatLng getAddressLatLng(Geocoder geocoder, String adresse) {
         LatLng resoltatt = null;
 
@@ -56,12 +61,25 @@ public class MapsFragment extends FragmentActivity implements OnMapReadyCallback
         return resoltatt;
     }
 
+    /**
+     * Calcule la distance entre deux positions géographiques.
+     *
+     * @param pos1 La première position (LatLng).
+     * @param pos2 La deuxième position (LatLng).
+     * @return La distance en mètres entre les deux positions.
+     */
     public static float getDist(LatLng pos1, LatLng pos2) {
-            float[] results = new float[1];
-            Location.distanceBetween(pos1.latitude, pos1.longitude, pos2.latitude, pos2.longitude, results);
-            return results[0];
+        float[] results = new float[1];
+        Location.distanceBetween(pos1.latitude, pos1.longitude, pos2.latitude, pos2.longitude, results);
+        return results[0];
     }
 
+    /**
+     * Méthode appelée lorsque la carte est prête à être utilisée.
+     * Elle affiche un marqueur sur la carte à l'emplacement correspondant à l'adresse.
+     *
+     * @param googleMap L'instance de GoogleMap prête à être utilisée.
+     */
     public void onMapReady(GoogleMap googleMap) {
         Geocoder geocoder = new Geocoder(this);
         mMap = googleMap;

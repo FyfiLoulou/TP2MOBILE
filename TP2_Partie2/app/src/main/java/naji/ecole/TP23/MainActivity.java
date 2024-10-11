@@ -23,14 +23,11 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import java.util.Optional;
 
 import naji.ecole.TP23.bd.ConnexionBD;
 import naji.ecole.TP23.bd.Info;
-
 public class MainActivity extends AppCompatActivity {
-
     Button envoyer;
     Button showmap;
     EditText nom;
@@ -45,14 +42,6 @@ public class MainActivity extends AppCompatActivity {
     TextView perice;
     List<Info> succursalles;
     private ConnexionBD succursallesDBConnexionSource;
-
-    /**
-     * Méthode appelée lors de la création de l'activité.
-     * Cette méthode initialise l'interface utilisateur, configure les éléments
-     * d'interaction et applique les insets de fenêtre.
-     *
-     * @param savedInstanceState Bundle contenant l'état de l'activité précédemment enregistrée.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         Geocoder gc = new Geocoder(this);
         envoyer = findViewById(R.id.envoyer);
         showmap = findViewById(R.id.showmap);
@@ -75,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         phone = findViewById(R.id.phone);
         hand = findViewById(R.id.hand);
         perice = findViewById(R.id.price);
+
+        // Ajout des produits disponibles
         pidz.addAll(Arrays.asList(
                 new Pidz("Peppe From", 1.50),
                 new Pidz("Vege", 150),
@@ -82,41 +74,44 @@ public class MainActivity extends AppCompatActivity {
                 new Pidz("Mustard Saucer", 35),
                 new Pidz("Naji's Special", 200)
         ));
+
         // Action à réaliser lors du clic sur le bouton "envoyer"
         envoyer.setOnClickListener((View v) -> {
-
-            // get succursale la plus proche
-
+            // Obtenir la succursale la plus proche
             LatLng clienteAd = MapsFragment.getAddressLatLng(gc, String.valueOf(adresse.getText()) + ville.getText() + codepostal.getText());
             if (clienteAd != null) {
                 Optional<Info> succursalleCooletProche = succursallesDBConnexionSource.getAllInfos().stream().min((a, b) -> (int) (MapsFragment.getDist(clienteAd, MapsFragment.getAddressLatLng(gc, a.getAdresse())) - MapsFragment.getDist(clienteAd, MapsFragment.getAddressLatLng(gc, b.getAdresse()))));
-                startActivity(new Intent(this, EnvoyerActivity.class).putExtra("nomSucc", succursalleCooletProche.get().getAdresse()).putExtra("phoneSucc", succursalleCooletProche.get().getPhone()));
+                startActivity(new Intent(this, EnvoyerActivity.class)
+                        .putExtra("nomSucc", succursalleCooletProche.get().getAdresse())
+                        .putExtra("phoneSucc", succursalleCooletProche.get().getPhone()));
             }
-
         });
 
         // Action à réaliser lors du clic sur le bouton "showmap"
         showmap.setOnClickListener((View v) -> {
-            // pas address a la fin
-            String addresse = String.valueOf(adresse.getText());
-            if (!addresse.isEmpty())
-                startActivity(new Intent(this, MapsFragment.class).putExtra("adresse", addresse));
+            LatLng clienteAd = MapsFragment.getAddressLatLng(gc, String.valueOf(adresse.getText()) + ville.getText() + codepostal.getText());
+            if (clienteAd != null) {
+                Optional<Info> succursalleCooletProche = succursallesDBConnexionSource.getAllInfos().stream().min((a, b) -> (int) (MapsFragment.getDist(clienteAd, MapsFragment.getAddressLatLng(gc, a.getAdresse())) - MapsFragment.getDist(clienteAd, MapsFragment.getAddressLatLng(gc, b.getAdresse()))));
+                startActivity(new Intent(this, MapsFragment.class).putExtra("adresse", succursalleCooletProche.get().getAdresse()));
+            }
         });
 
-
-        // DATABASE
+        // Initialisation de la base de données
         succursallesDBConnexionSource = new ConnexionBD(this);
         succursallesDBConnexionSource.open();
         initBD();
 
+        // Journaliser les informations sur les succursales
         succursallesDBConnexionSource.getAllInfos().forEach(i -> {
             Log.d("lol", i.getId() + " " + i.getAdresse() + " " + i.getPhone());
         });
 
+        // Configurer le Spinner avec l'adaptateur
         ArrayAdapter<Pidz> audioJackToHdmi = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pidz);
         audioJackToHdmi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hand.setAdapter(audioJackToHdmi);
 
+        // Écouteur pour la sélection d'un produit dans le Spinner
         hand.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -126,11 +121,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                // Aucune action nécessaire
             }
         });
     }
 
+    /**
+     * Initialise la base de données avec des informations de succursales par défaut si elle est vide.
+     */
     private void initBD() {
         if (succursallesDBConnexionSource.getAllInfos().isEmpty()) {
             succursallesDBConnexionSource.createInfo("Domino's Pizza, 3400 1re Av., Québec, QC G1L 3R5", "549 067 2771");
@@ -140,5 +138,4 @@ public class MainActivity extends AppCompatActivity {
             succursallesDBConnexionSource.createInfo("Domino's Pizza, 137 Main St E, North Bay, ON P1B 1A9", "417 999 4555");
         }
     }
-
 }

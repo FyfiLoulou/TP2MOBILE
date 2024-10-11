@@ -29,10 +29,13 @@ public class EnvoyerActivity extends AppCompatActivity {
             return insets;
         });
 
-        ville = getIntent().getStringExtra("ville");
-        codePostal = getIntent().getStringExtra("codePostal");
-        adresse = getIntent().getStringExtra("adresse");
         add = findViewById(R.id.succ);
         phone = findViewById(R.id.succNoTel);
+
+        String addresseSucc = getIntent().getStringExtra("nomSucc");
+        String notel = getIntent().getStringExtra("phoneSucc");
+
+        add.setText(addresseSucc);
+        phone.setText(notel);
     }
 }

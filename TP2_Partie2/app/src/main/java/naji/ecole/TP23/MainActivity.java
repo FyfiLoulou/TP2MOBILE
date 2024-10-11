@@ -1,6 +1,7 @@
 package naji.ecole.TP23;
 
 import android.content.Intent;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,11 +18,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import naji.ecole.TP23.bd.ConnexionBD;
 import naji.ecole.TP23.bd.Info;
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        Geocoder gc = new Geocoder(this);
         envoyer = findViewById(R.id.envoyer);
         showmap = findViewById(R.id.showmap);
         nom = findViewById(R.id.nom);
@@ -82,6 +87,12 @@ public class MainActivity extends AppCompatActivity {
         // Action à réaliser lors du clic sur le bouton "envoyer"
         envoyer.setOnClickListener((View v) -> {
 
+            // get succursale la plus proche
+
+            LatLng clienteAd = MapsFragment.getAddressLatLng(gc, String.valueOf(adresse.getText()) + String.valueOf(ville.getText()) + String.valueOf(codepostal.getText()));
+            Optional<Info> succursalleCooletProche  = succursallesDBConnexionSource.getAllInfos().stream().min((a, b) -> (int) (MapsFragment.getDist(gc, clienteAd, MapsFragment.getAddressLatLng(gc, a.getAdresse())) - MapsFragment.getDist(gc, clienteAd, MapsFragment.getAddressLatLng(gc, b.getAdresse()))));
+
+            startActivity(new Intent(this, EnvoyerActivity.class).putExtra("nomSucc", succursalleCooletProche.get().getAdresse()).putExtra("phoneSucc", succursalleCooletProche.get().getPhone()));
         });
 
         // Action à réaliser lors du clic sur le bouton "showmap"

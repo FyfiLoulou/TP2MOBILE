@@ -40,8 +40,7 @@ public class MapsFragment extends FragmentActivity implements OnMapReadyCallback
         adresse = getIntent().getStringExtra("adresse");
     }
 
-    private LatLng getAddressLatLng(String adresse) {
-        Geocoder geocoder = new Geocoder(this);
+    public static LatLng getAddressLatLng(Geocoder geocoder, String adresse) {
         LatLng resoltatt = null;
 
         try {
@@ -57,16 +56,16 @@ public class MapsFragment extends FragmentActivity implements OnMapReadyCallback
         return resoltatt;
     }
 
-    private float getDist(String address1, String address2) {
-        LatLng pos1 = getAddressLatLng(address1), pos2 = getAddressLatLng(address2);
+    public static float getDist(Geocoder geocoder, LatLng pos1, LatLng pos2) {
             float[] results = new float[1];
             Location.distanceBetween(pos1.latitude, pos1.longitude, pos2.latitude, pos2.longitude, results);
             return results[0];
     }
 
     public void onMapReady(GoogleMap googleMap) {
+        Geocoder geocoder = new Geocoder(this);
         mMap = googleMap;
-        LatLng pos = getAddressLatLng(adresse);
+        LatLng pos = getAddressLatLng(geocoder, adresse);
         mMap.addMarker(new MarkerOptions().position(pos).title("SA MARCHE :)))))"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
 

@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation(libs.play.services.maps.v1900)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

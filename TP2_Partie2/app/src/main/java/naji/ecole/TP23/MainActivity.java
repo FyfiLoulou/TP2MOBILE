@@ -59,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Action à réaliser lors du clic sur le bouton "showmap"
         showmap.setOnClickListener((View v) -> {
-            startActivity(new Intent(this, MapsFragment.class));
+            // pas address a la fin
+            startActivity(new Intent(this, MapsFragment.class).putExtra("adresse", String.valueOf(adresse.getText())));
         });
     }
+
 }

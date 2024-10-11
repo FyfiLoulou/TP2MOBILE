@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import naji.ecole.TP23.bd.ConnexionBD;
@@ -41,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
     EditText codepostal;
     EditText ville;
     EditText phone;
-    List<Pizza> pidz = new ArrayList<>();
+    List<Pidz> pidz = new ArrayList<>();
     Spinner hand;
-    Pizza select;
+    Pidz select;
     TextView perice;
     List<Info> succursalles;
     private ConnexionBD succursallesDBConnexionSource;
@@ -78,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
         hand = findViewById(R.id.hand);
         perice = findViewById(R.id.price);
         pidz.addAll(Arrays.asList(
-                new Pizza("Peppe From", 1.50),
-                new Pizza("Vege", 150),
-                new Pizza("Super Sausages' Special 😉", 3.50),
-                new Pizza("Mustard Saucer", 35),
-                new Pizza("Naji's Special", 200)
+                new Pidz("Peppe From", 1.50),
+                new Pidz("Vege", 150),
+                new Pidz("Super Sausages' Special 😉", 3.50),
+                new Pidz("Mustard Saucer", 35),
+                new Pidz("Naji's Special", 200)
         ));
         // Action à réaliser lors du clic sur le bouton "envoyer"
         envoyer.setOnClickListener((View v) -> {
@@ -113,14 +111,14 @@ public class MainActivity extends AppCompatActivity {
             Log.d("lol", i.getId() + " " + i.getAdresse() + " " + i.getPhone());
         });
 
-        ArrayAdapter<Pizza> audioJackToHdmi = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pidz);
+        ArrayAdapter<Pidz> audioJackToHdmi = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pidz);
         audioJackToHdmi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hand.setAdapter(audioJackToHdmi);
 
         hand.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                select = (Pizza) adapterView.getItemAtPosition(i);
+                select = (Pidz) adapterView.getItemAtPosition(i);
                 perice.setText(String.valueOf(select.getPrice()));
             }
 

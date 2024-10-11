@@ -5,13 +5,13 @@ import java.nio.charset.Charset;
 import java.util.Objects;
 
 
-public class Pizza {
+public class Pidz {
     private String name;
     private double price;
     private int nocp0;
     private static int noCom = 1;
 
-    public Pizza(String name, double price) {
+    public Pidz(String name, double price) {
         this.name = name;
         this.price = price;
         this.nocp0 = noCom++;
@@ -46,8 +46,8 @@ public class Pizza {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Pizza pizza = (Pizza) o;
-        return Double.compare(price, pizza.price) == 0 && Objects.equals(name, pizza.name);
+        Pidz pidz = (Pidz) o;
+        return Double.compare(price, pidz.price) == 0 && Objects.equals(name, pidz.name);
     }
 
     @Override

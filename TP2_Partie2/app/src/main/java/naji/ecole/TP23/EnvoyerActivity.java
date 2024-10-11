@@ -1,11 +1,11 @@
 package naji.ecole.TP23;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -37,5 +37,8 @@ public class EnvoyerActivity extends AppCompatActivity {
 
         add.setText(addresseSucc);
         phone.setText(notel);
+
+        Button retour = findViewById(R.id.retour);
+        retour.setOnClickListener((x) -> startActivity(new Intent(this, MainActivity.class)));
     }
 }
